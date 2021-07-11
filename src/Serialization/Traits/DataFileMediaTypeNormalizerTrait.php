@@ -27,7 +27,8 @@ trait DataFileMediaTypeNormalizerTrait
 			return $mediaType;
 		try
 		{
-			$mediaType = MediaTypeFactory::fromMedia($filename);
+			$mediaType = MediaTypeFactory::fromMedia($filename,
+				$this->getMediaTypeFactoryFlags());
 		}
 		catch (\Exception $e)
 		{
@@ -35,5 +36,10 @@ trait DataFileMediaTypeNormalizerTrait
 		}
 
 		return (\strval($mediaType) == 'text/plain') ? null : $mediaType;
+	}
+
+	protected function getMediaTypeFactoryFlags()
+	{
+		return MediaTypeFactory::FROM_ALL;
 	}
 }
