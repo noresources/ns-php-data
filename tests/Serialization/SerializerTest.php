@@ -258,7 +258,8 @@ final class SerializerTest extends \PHPUnit\Framework\TestCase
 
 			$this->assertTrue(
 				$serializer->canUnserializeFromFile($filename),
-				$x . ' support');
+				$x . ' support (' . \basename($filename) . ' ' .
+				\strval(MediaTypeFactory::fromMedia($filename)) . ')');
 
 			$actual = $serializer->unserializeFromFile($filename);
 
