@@ -27,15 +27,18 @@ trait DataFileMediaTypeNormalizerTrait
 			return $mediaType;
 		try
 		{
-			$mediaType = MediaTypeFactory::fromMedia($filename,
-				$this->getMediaTypeFactoryFlags());
+			if (\is_string($mediaType))
+				$mediaType = MediaTypeFactory::fromString($mediaType);
+			elseif ($filename)
+				$mediaType = MediaTypeFactory::fromMedia($filename,
+					$this->getMediaTypeFactoryFlags());
 		}
 		catch (\Exception $e)
 		{
 			return null;
 		}
 
-		return (\strval($mediaType) == 'text/plain') ? null : $mediaType;
+		return ($mediaType && \strval($mediaType) == 'text/plain') ? null : $mediaType;
 	}
 
 	protected function getMediaTypeFactoryFlags()

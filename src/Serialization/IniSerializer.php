@@ -37,6 +37,18 @@ class IniSerializer implements DataUnserializerInterface,
 		return $this->getMediaTypes();
 	}
 
+	/**
+	 * Note: Guessing ini media type from file content type is unreliable
+	 */
+	public function canUnserializeFromFile($filename,
+		MediaTypeInterface $mediaType = null)
+	{
+		$mediaType = $this->normalizeFileMediaType(null, $mediaType);
+		if ($mediaType)
+			return $this->canUnserializeData($mediaType);
+		return $this->matchExtension($filename);
+	}
+
 	public function unserializeFromFile($filename,
 		MediaTypeInterface $mediaType = null)
 	{
